@@ -111,4 +111,5 @@
     <string name="antimatter">antimatter</string>
     <string name="assistant">assistant</string>
     <string name="open">open</string>
+    <string name="alarm_on_off">Alarm On/Off</string>
 </resources>

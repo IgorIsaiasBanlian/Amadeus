@@ -1,21 +1,15 @@
 package com.example.yink.amadeus;
 
-/**
- * Created by Yink on 05.03.2017.
- */
-
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
+
 import androidx.fragment.app.FragmentActivity;
 
 public class SettingsActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
-        }
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
     }
 
     @Override

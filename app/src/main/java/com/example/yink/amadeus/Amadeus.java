@@ -185,7 +185,7 @@ class Amadeus {
                                 @Override
                                 public void run() {
                                     if (normalized > 50) {
-                                        // Todo: Maybe choose sprite based on previous choice and volume instead of random
+
                                         kurisu.setImageDrawable(animation.getFrame((int) Math.ceil(Math.random() * 2)));
                                     } else {
                                         kurisu.setImageDrawable(animation.getFrame(0));

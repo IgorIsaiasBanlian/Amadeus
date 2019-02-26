@@ -43,9 +43,9 @@ public class LaunchActivity extends AppCompatActivity {
         }
     };
 
-    private boolean isAppInstalled(Context context, String packageName) {
+    private boolean isAppInstalled(Context context) {
         try {
-            context.getPackageManager().getApplicationInfo(packageName, 0);
+            context.getPackageManager().getApplicationInfo("com.google.android.googlequicksearchbox", 0);
             return true;
         } catch (PackageManager.NameNotFoundException e) {
             return false;
@@ -56,16 +56,16 @@ public class LaunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
-        connect = (ImageView) findViewById(R.id.imageView_connect);
-        cancel = (ImageView) findViewById(R.id.imageView_cancel);
-        status = (TextView) findViewById(R.id.textView_call);
-        logo = (ImageView) findViewById(R.id.imageView_logo);
+        connect = findViewById(R.id.imageView_connect);
+        cancel = findViewById(R.id.imageView_cancel);
+        status = findViewById(R.id.textView_call);
+        logo = findViewById(R.id.imageView_logo);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final Window win = getWindow();
 
         aniHandle.post(aniRunnable);
 
-        if (!isAppInstalled(LaunchActivity.this, "com.google.android.googlequicksearchbox")) {
+        if (!isAppInstalled(LaunchActivity.this)) {
             status.setText(R.string.google_app_error);
         }
 
@@ -82,7 +82,7 @@ public class LaunchActivity extends AppCompatActivity {
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isPressed && isAppInstalled(LaunchActivity.this, "com.google.android.googlequicksearchbox")) {
+                if (!isPressed && isAppInstalled(LaunchActivity.this)) {
                     isPressed = true;
 
                     connect.setImageResource(R.drawable.connect_select);
@@ -169,7 +169,7 @@ public class LaunchActivity extends AppCompatActivity {
 
         if (isPressed) {
             status.setText(R.string.disconnected);
-        } else if (!isAppInstalled(LaunchActivity.this, "com.google.android.googlequicksearchbox")) {
+        } else if (!isAppInstalled(LaunchActivity.this)) {
             status.setText(R.string.google_app_error);
         } else if (Alarm.isPlaying()) {
             status.setText(R.string.incoming_call);

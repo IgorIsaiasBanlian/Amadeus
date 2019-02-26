@@ -29,8 +29,6 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String TAG = "MainActivity";
-
     private VoiceLine[] voiceLines = VoiceLine.Line.getLines();
     private Random randomgen = new Random();
     private String recogLang;
@@ -43,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        ImageView kurisu = (ImageView) findViewById(R.id.imageView_kurisu);
-        ImageView subtitlesBackground = (ImageView) findViewById(R.id.imageView_subtitles);
+        ImageView kurisu = findViewById(R.id.imageView_kurisu);
+        ImageView subtitlesBackground = findViewById(R.id.imageView_subtitles);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         recogLang = settings.getString("recognition_lang", "ja-JP");
         contextLang = recogLang.split("-");
@@ -203,14 +201,14 @@ public class MainActivity extends AppCompatActivity {
         }
         public void onResults(Bundle results) {
             String input = "";
-            String debug = "";
+            StringBuilder debug = new StringBuilder();
             Log.d(TAG, "Received results");
             ArrayList data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
             for (Object word: data) {
-                debug += word + "\n";
+                debug.append(word).append("\n");
             }
-            Log.d(TAG, debug);
+            Log.d(TAG, debug.toString());
 
             input += data.get(0);
             /* TODO: Japanese doesn't split the words. Sigh. */

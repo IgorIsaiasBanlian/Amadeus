@@ -10,11 +10,10 @@ import android.util.Log;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    private final String TAG = "AlarmReceiver";
-
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        String TAG = "AlarmReceiver";
         Log.d(TAG, "Broadcast received!");
 
         int[] ringtones = {
