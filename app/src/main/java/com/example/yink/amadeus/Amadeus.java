@@ -1,5 +1,6 @@
 package com.example.yink.amadeus;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +14,7 @@ import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 class Amadeus {
@@ -28,7 +30,6 @@ class Amadeus {
     static Boolean isSpeaking = false;
     static Boolean isLoop = false;
     static MediaPlayer m;
-    private static String TAG = "Amadeus";
     private static int shaman_girls = -1;
     private static VoiceLine[] voiceLines = VoiceLine.Line.getLines();
     private static HashMap<Bundle<Integer>, Bundle<VoiceLine>> responseInputMap = new HashMap<>();
@@ -120,8 +121,8 @@ class Amadeus {
 
     static void speak(VoiceLine line, final Activity activity) {
         final AnimationDrawable animation;
-        final TextView subtitles = (TextView) activity.findViewById(R.id.textView_subtitles);
-        final ImageView kurisu = (ImageView) activity.findViewById(R.id.imageView_kurisu);
+        final TextView subtitles = activity.findViewById(R.id.textView_subtitles);
+        final ImageView kurisu = activity.findViewById(R.id.imageView_kurisu);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
 
         try {
@@ -199,6 +200,7 @@ class Amadeus {
         }
     }
 
+    @SuppressLint("NewApi")
     static void responseToInput(String input, Context context, Activity activity) {
         VoiceLine[] specificLines = null;
         input = input.toLowerCase();
@@ -237,7 +239,7 @@ class Amadeus {
             for (Bundle<Integer> input_bundle : responseInputMap.keySet()) {
                 for (Integer input_code : input_bundle) {
                     if (containInput(input, context.getString(input_code))) {
-                        specificLines = responseInputMap.get(input_bundle).toArray();
+                        specificLines = Objects.requireNonNull(responseInputMap.get(input_bundle)).toArray();
                         break;
                     }
                 }
@@ -272,8 +274,8 @@ class Amadeus {
 
         HashMap<String, Integer> dictionary = new HashMap<>();
         String corrected;
-        Boolean found;
-        /* TODO: Dictionary for other language equivalents. To be reworked. */
+        boolean found;
+
         dictionary.put("хром", 0);
         dictionary.put("календарь", 1);
         dictionary.put("часы", 2);
@@ -285,7 +287,7 @@ class Amadeus {
         };
 
         for (ApplicationInfo packageInfo : packages) {
-            /* TODO: Needs to be adjusted probably. */
+
             found = true;
             /* Look up words in dictionary and correct the input since we can't open some apps in other langs */
             for (String word: input) {
@@ -301,6 +303,7 @@ class Amadeus {
             }
 
             if (found) {
+                String TAG = "Amadeus";
                 Log.d(TAG, "Found app!");
                 Intent app;
                 Amadeus.speak(voiceLines[VoiceLine.Line.OK], activity);
@@ -338,18 +341,19 @@ class Amadeus {
 
         private T[] list;
 
-        public Bundle(T... list) {
+        @SafeVarargs
+        Bundle(T... list) {
             this.list = list;
         }
 
-        public T[] toArray() {
+        T[] toArray() {
             return list;
         }
 
         @NonNull
         @Override
         public Iterator<T> iterator() {
-            Iterator<T> iterator = new Iterator<T>() {
+            return new Iterator<T>() {
                 int index = 0;
 
                 @Override
@@ -362,7 +366,6 @@ class Amadeus {
                     return list[index++];
                 }
             };
-            return iterator;
         }
     }
 
