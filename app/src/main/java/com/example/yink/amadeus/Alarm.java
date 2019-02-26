@@ -1,5 +1,6 @@
 package com.example.yink.amadeus;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -79,6 +80,7 @@ class Alarm {
         return isPlaying;
     }
 
+    @SuppressLint("InvalidWakeLockTag")
     private static void acquireCpuWakeLock(Context context) {
         if (sCpuWakeLock != null) {
             return;
