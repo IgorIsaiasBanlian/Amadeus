@@ -158,20 +158,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode) {
-            case 1: {
-                if (resultCode == RESULT_OK && null != data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK && null != data) {
 
-                    /* Switch language within current context for voice recognition */
-                    Context context = LangContext.load(getApplicationContext(), contextLang[0]);
+                /* Switch language within current context for voice recognition */
+                Context context = LangContext.load(getApplicationContext(), contextLang[0]);
 
-                    ArrayList<String> input = data
-                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    Amadeus.responseToInput(input.get(0), context, MainActivity.this);
-                }
-                break;
+                ArrayList<String> input = data
+                        .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                Amadeus.responseToInput(input.get(0), context, MainActivity.this);
             }
-
         }
     }
 

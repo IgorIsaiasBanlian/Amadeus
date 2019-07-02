@@ -7,14 +7,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import androidx.legacy.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
-public class AlarmBootReceiver extends WakefulBroadcastReceiver {
+public class AlarmBootReceiver {
 
     final String TAG = "AlarmBootReceiver";
 
-    @Override
     public void onReceive(Context context, Intent intent) {
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
